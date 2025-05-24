@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+
+
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
+
+    public function breeds()
+    {
+        return $this->hasMany(Breed::class);
+    }
 }

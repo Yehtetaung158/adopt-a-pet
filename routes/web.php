@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BreedController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Category;
@@ -26,6 +27,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('categories', CategoryController::class);
+    Route::resource('breeds',BreedController::class);
 });
 
 
