@@ -13,6 +13,7 @@
                 </div>
                 <a href="{{route('categories.index')}}">Categories</a>
                 <a href="{{route('breeds.index')}}">Breeds</a>
+                <a href="{{route('pets.index')}}">Pets</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="text-red-600 hover:underline">

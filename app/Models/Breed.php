@@ -11,7 +11,12 @@ class Breed extends Model
     use HasFactory;
 
     public function category()
-{
-    return $this->belongsTo(Category::class);
-}
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function pets()
+    {
+        return $this->hasManyThrough(Pet::class, Category::class);
+    }
 }

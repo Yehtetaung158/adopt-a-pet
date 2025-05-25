@@ -9,4 +9,14 @@ class Pet extends Model
 {
     /** @use HasFactory<\Database\Factories\PetFactory> */
     use HasFactory;
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function breed()
+    {
+        return $this->belongsTo(Breed::class);
+    }
 }

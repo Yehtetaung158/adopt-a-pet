@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Pet;
 use App\Http\Requests\StorePetRequest;
 use App\Http\Requests\UpdatePetRequest;
+use App\Models\Breed;
+use App\Models\Category;
 
 class PetController extends Controller
 {
@@ -13,7 +15,9 @@ class PetController extends Controller
      */
     public function index()
     {
-        //
+        $pets = new Pet();
+        $pets = $pets->with(['category', 'breed'])->paginate(10);
+        return view('pet.index', compact('pets'));
     }
 
     /**
@@ -21,7 +25,10 @@ class PetController extends Controller
      */
     public function create()
     {
-        //
+        $pet = new Pet();
+        $categories = Category::all();
+        $breeds = Breed::all();
+        return view('pet.create', compact('pet', 'categories', 'breeds'));
     }
 
     /**
@@ -62,5 +69,12 @@ class PetController extends Controller
     public function destroy(Pet $pet)
     {
         //
+    }
+
+    public function getBreedsByCategory($id)
+    {
+        $breeds = Breed::where('category_id', $id)->get();
+
+        return response()->json($breeds);
     }
 }
