@@ -56,6 +56,12 @@ return [
             'throw' => false,
         ],
 
+        'google' => [
+        'driver'                          => 'google',
+        'service_account_credentials_json'=> storage_path('app/google-service-account.json'),
+        'folderId'                        => env('GOOGLE_DRIVE_FOLDER'),
+    ],
+
     ],
 
     /*

@@ -31,7 +31,16 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::resource('breeds', BreedController::class);
     Route::resource('pets', PetController::class);
     Route::get('/breeds-by-category/{id}', [PetController::class, 'getBreedsByCategory']);
+    Route::get('/breeds-by-name', function (Illuminate\Http\Request $request) {
+        $categoryName = $request->query('category_name');
+        $category = App\Models\Category::where('name', $categoryName)->first();
 
+        if (!$category) {
+            return response()->json([]);
+        }
+
+        return response()->json($category->breeds()->select('name')->get());
+    });
 });
 
 
