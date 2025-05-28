@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('breed')->nullable();
             $table->date('birth_date')->nullable();
             // $table->text('Image')->nullable();
-            $table->string('image')->nullable();
+            // $table->string('image')->nullable();
+            $table->json('images'); // For multiple images
             $table->string('description')->nullable();
             $table->enum('status', ['available', 'adopted'])->default('available');
             $table->timestamps();

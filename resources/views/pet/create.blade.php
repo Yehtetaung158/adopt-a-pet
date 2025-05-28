@@ -247,7 +247,8 @@
 
         {{-- Image Upload --}}
         <label for="image">Image:</label>
-        <input type="file" name="image" id="image" accept="image/*">
+        <input type="file" name="images[]" id="images" accept="image/*" multiple>
+
         @error('image')
             <div class="error">{{ $message }}</div>
         @enderror

@@ -18,7 +18,7 @@ class StorePetRequest extends FormRequest
             'category'     => 'nullable|string|max:255',
             'breed'        => 'nullable|string|max:255',
             'birth_date'   => 'nullable|date',
-            'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'images'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description'  => 'nullable|string',
             'status'       => 'required|in:available,adopted',
         ];
