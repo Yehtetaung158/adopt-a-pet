@@ -1,40 +1,69 @@
+<!-- resources/views/breeds/edit.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Edit Breed</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
-    <h1>Edit Breed</h1>
-    <form action="{{ route('breeds.update', $breed->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg w-full max-w-md p-6">
+        <h1 class="text-2xl font-semibold mb-6 text-center">Edit Breed</h1>
 
-        <label for="name">Breed Name:</label>
-        <input type="text" name="name" id="name" value="{{ old('name', $breed->name) }}" required>
+        <form action="{{ route('breeds.update', $breed->id) }}" method="POST" class="space-y-4">
+            @csrf
+            @method('PUT')
 
-        <br>
+            <!-- Breed Name -->
+            <div>
+                <label for="name" class="block text-gray-700 font-medium">Breed Name</label>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value="{{ old('name', $breed->name) }}"
+                    required
+                    class="mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                >
+            </div>
 
-        <label for="category">Category (optional):</label>
-        <select name="category_id" id="category">
-            <option value="">-- Select a category --</option>
-            @foreach ($categories as $category)
-                @if (!empty($category->name))
-                    <option value="{{ $category->id }}"
-                        {{ old('category_id', $breed->category_id) == $category->id ? 'selected' : '' }}>
-                        {{ $category->name }}
-                    </option>
-                @endif
-            @endforeach
-        </select>
+            <!-- Category Select -->
+            <div>
+                <label for="category" class="block text-gray-700 font-medium">Category (optional)</label>
+                <select
+                    name="category_id"
+                    id="category"
+                    class="mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                    <option value="">-- Select a category --</option>
+                    @foreach ($categories as $category)
+                        @if (!empty($category->name))
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id', $breed->category_id) == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
 
-        <br><br>
-        <button type="submit">Update</button>
-    </form>
+            <!-- Submit Button -->
+             <div class="flex space-x-4 justify-end">
+                <a href="{{ route('breeds.index') }}"
+                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                    Cancel
+                </a>
+                <button
+                    type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+                >
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>

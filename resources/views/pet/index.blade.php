@@ -1,54 +1,3 @@
-{{-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pets List</title>
-</head>
-
-<body>
-    <h1>I am pet</h1>
-    <a href="{{ route('pets.create') }}">Create Pet</a>
-    <ul>
-        @foreach ($pets as $category)
-            <li>
-                <strong>Name:</strong> {{ $category->name }} <br>
-                <strong>Breed:</strong> {{ $category->breed ?? 'N/A' }}
-                <strong>Birthdate:</strong> {{ $category->birth_date ?? 'N/A' }} <br>
-                <strong>Description:</strong> {{ $category->description ?? 'N/A' }} <br>
-                <pre>{{ $category->image }}</pre>
-                <img src="{{ $category->image }}" alt="image" width="200px" height="200px">
-
-                <img width="200px" height="200px"
-                    src="https://drive.google.com/file/d/1WHfRoEGQK24atgj5ubFonUFbrJVf7Jge/view?usp=drivesdk"
-                    alt="image">
-                <img width="200px" height="200px"
-                    src="https://drive.google.com/file/d/1WHfRoEGQK24atgj5ubFonUFbrJVf7Jge/preview" alt="image">
-                <img src="https://drive.google.com/uc?export=view&id=1WHfRoEGQK24atgj5ubFonUFbrJVf7Jge" alt="image"
-                    width="200px" height="200px">
-                <img width="200px" height="200px"
-                    src="https://drive.google.com/uc?export=view&id=1WHfRoEGQK24atgj5ubFonUFbrJVf7Jge" alt="image">
-                <img src="https://drive.google.com/uc?export=view&id=1WHfRoEGQK24atgj5ubFonUFbrJVf7Jge" alt="image"
-                    width="200" height="200">
-                <div>
-                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
-                        @method('delete')
-                        @csrf
-                        <input type="hidden" name="category_id" value="{{ $category->id }}">
-                        <button type="submit">Delete</button>
-                    </form>
-                </div>
-                <div>
-                    <a href="{{ route('categories.edit', $category->id) }}">Edit</a>
-                </div>
-            </li>
-        @endforeach
-    </ul>
-</body>
-
-</html> --}}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,39 +5,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pets List</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
-    <h1>Pets List</h1>
-    <a href="{{ route('dashboard') }}">Home</a>
-    <a href="{{ route('pets.create') }}">Create Pet</a>
-    <ul>
-        @foreach ($pets as $pet)
-            <li>
-                <strong>Name:</strong> {{ $pet->name }} <br>
-                <strong>Breed:</strong> {{ $pet->breed ?? 'N/A' }} <br>
-                <strong>Birthdate:</strong> {{ $pet->birth_date ?? 'N/A' }} <br>
-                <strong>Description:</strong> {{ $pet->description ?? 'N/A' }} <br>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-7xl mx-auto bg-white p-6 rounded shadow">
+        <h1 class="text-2xl font-bold mb-4">Pets List</h1>
 
-                @foreach ($pet->images as $image)
-                    <img src="{{ asset('storage/PetImage/' . $image) }}" alt="Pet Image" width="200"
-                        height="200">
+        <div class="mb-4 flex space-x-4">
+            <a href="{{ route('dashboard') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Home</a>
+            <a href="{{ route('pets.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create Pet</a>
+        </div>
+
+        <table class="w-full table-auto border border-gray-300">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border border-gray-300 px-4 py-2">#</th>
+                    <th class="border border-gray-300 px-4 py-2">Name</th>
+                    <th class="border border-gray-300 px-4 py-2">Breed</th>
+                    <th class="border border-gray-300 px-4 py-2">Birth Date</th>
+                    <th class="border border-gray-300 px-4 py-2">Description</th>
+                    <th class="border border-gray-300 px-4 py-2">Image</th>
+                    <th class="border border-gray-300 px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($pets as $index => $pet)
+                    <tr class="hover:bg-gray-100">
+                        <td class="border px-4 py-2">{{ $index + 1 }}</td>
+                        <td class="border px-4 py-2">{{ $pet->name }}</td>
+                        <td class="border px-4 py-2">{{ $pet->breed ?? 'N/A' }}</td>
+                        <td class="border px-4 py-2">{{ $pet->birth_date ?? 'N/A' }}</td>
+                        <td class="border px-4 py-2">{{ $pet->description ?? 'N/A' }}</td>
+                        <td class="border px-4 py-2">
+                            @if (count($pet->images))
+                                <img src="{{ asset('storage/PetImage/' . $pet->images[0]) }}" alt="Pet Image" width="100" height="100" class="rounded">
+                            @else
+                                <span class="text-gray-400">No image</span>
+                            @endif
+                        </td>
+                        <td class="border px-4 py-2 space-x-2">
+                            <a href="{{ route('pets.edit', $pet->id) }}" class="text-indigo-600 hover:underline">Edit</a>
+                            <form action="{{ route('pets.destroy', $pet->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
                 @endforeach
-
-                {{-- <img src="{{ asset('storage/PetImage/' . $pet->image) }}" alt="" width="200" height="200"> --}}
-
-                <!-- Delete & Edit Forms -->
-                <div>
-                    <form action="{{ route('pets.destroy', $pet->id) }}" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit">Delete</button>
-                    </form>
-                    <a href="{{ route('pets.edit', $pet->id) }}">Edit</a>
-                </div>
-            </li>
-        @endforeach
-    </ul>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
