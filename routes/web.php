@@ -41,6 +41,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 
         return response()->json($category->breeds()->select('name')->get());
     });
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
 });
 
 

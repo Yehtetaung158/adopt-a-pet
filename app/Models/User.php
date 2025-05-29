@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -43,5 +44,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            $user->profile()->create(); // default empty profile
+        });
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
 }

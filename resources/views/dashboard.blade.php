@@ -1,9 +1,32 @@
+@php
+    $user = Auth::user();
+    $profile = $user->profile;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
         </h2>
+        <div>
+            <h1>Welcome, {{ Auth::user()->name }}</h1>
+        </div>
     </x-slot>
+
+    <div class="mt-6 bg-white p-6 rounded-lg shadow">
+    <h3 class="text-lg font-semibold mb-2">Your Profile</h3>
+
+    <p><strong>Name:</strong> {{ $user->name }}</p>
+    <p><strong>Email:</strong> {{ $user->email }}</p>
+    <p><strong>Role:</strong> {{ $user->is_admin ? 'Admin' : 'User' }}</p>
+
+    @if($profile)
+        <p><strong>Phone:</strong> {{ $profile->phone }}</p>
+        <p><strong>Address:</strong> {{ $profile->address }}</p>
+    @else
+        <p class="text-red-500">No profile information found.</p>
+    @endif
+</div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
