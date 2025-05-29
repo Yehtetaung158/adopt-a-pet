@@ -4,6 +4,7 @@ use App\Http\Controllers\BreedController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,10 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 
         return response()->json($category->breeds()->select('name')->get());
     });
+});
+
+Route::middleware(['auth', 'is_admin'])->prefix('dashboard/admin')->group(function () {
+    Route::resource('users', UserController::class);
 });
 
 

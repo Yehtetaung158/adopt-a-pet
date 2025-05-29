@@ -47,6 +47,12 @@
                         href="{{ route('pets.index') }}">
                         Pets
                     </a>
+                    @if (Auth::user() && Auth::user()->is_admin)
+                        <a class="text-white text-center px-6 py-4 bg-red-500 rounded-lg hover:bg-red-600 transition"
+                            href="{{ route('users.index') }}">
+                            Registered Users
+                        </a>
+                    @endif
                     <a class="text-white text-center px-6 py-4 bg-pink-500 rounded-lg hover:bg-pink-600 transition"
                         href="{{ route('profile.index') }}">
                         Profile
