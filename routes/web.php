@@ -26,6 +26,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/index', [ProfileController::class, 'index'])->name('profile.index');
 
     Route::resource('categories', CategoryController::class);
     Route::resource('breeds', BreedController::class);
@@ -41,7 +42,6 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 
         return response()->json($category->breeds()->select('name')->get());
     });
-    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
 });
 
 
