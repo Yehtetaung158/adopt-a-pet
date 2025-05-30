@@ -53,6 +53,10 @@
                             Registered Users
                         </a>
                     @endif
+                    <a class="text-white text-center px-6 py-4 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition"
+                        href="{{ route('orders.index') }}">
+                        Orders
+                    </a>
                     <a class="text-white text-center px-6 py-4 bg-pink-500 rounded-lg hover:bg-pink-600 transition"
                         href="{{ route('profile.index') }}">
                         Profile

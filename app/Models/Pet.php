@@ -29,4 +29,8 @@ class Pet extends Model
     {
         return $this->belongsTo(Breed::class);
     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
