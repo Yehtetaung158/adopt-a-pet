@@ -13,11 +13,21 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
 
-    public function index()
+    // public function index()
+    // {
+    //     $profiles = Profile::all();
+    //     return $profiles;
+    //     return view('profile.index', compact('profiles'));
+    // }
+
+    public function show()
     {
-        $profile = Profile::with('user')->get();
+        $user = Auth::user();
+        $profile = $user->profile;
+        $profile->load('user');
         return view('profile.index', compact('profile'));
     }
+
     /**
      * Display the user's profile form.
      */

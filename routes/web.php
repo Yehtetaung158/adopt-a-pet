@@ -17,23 +17,16 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-//     Route::resource('categories',CategoryController::class);
-// });
-
 Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/profile/index', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
 
     Route::resource('categories', CategoryController::class);
     Route::resource('breeds', BreedController::class);
     Route::resource('pets', PetController::class);
-    Route::resource('orders',OrderController::class);
+    Route::resource('orders', OrderController::class);
 
     Route::get('/breeds-by-category/{id}', [PetController::class, 'getBreedsByCategory']);
     Route::get('/breeds-by-name', function (Illuminate\Http\Request $request) {
