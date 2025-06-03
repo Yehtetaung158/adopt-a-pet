@@ -1,0 +1,86 @@
+<nav x-data="{ open: false }" class="w-full bg-zinc-50 relative border-b border-emerald-500">
+    <div class="flex w-full max-w-[1200px] mx-auto justify-between space-x-4 py-4">
+        <div class="flex items-center space-x-4">
+            <!-- Logo -->
+            <a href="{{ url('/') }}">
+                <x-application-logo class="h-8 w-auto fill-current text-emerald-500" />
+            </a>
+            <button @click="open = !open"
+                class="flex items-center space-x-2 border border-emerald-500 px-3 py-1 text-emerald-500 hover:bg-emerald-100 hover:text-emerald-600 transition rounded-md">
+                <span>Menu</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor"
+                    class="w-5 h-5 transform transition-transform duration-300"
+                    :class="{ 'rotate-180': open }">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </button>
+        </div>
+
+        <div x-data="{ open: false }" class="relative">
+            <button @click="open = !open"
+                class="flex items-center space-x-2 border border-sky-400 bg-sky-400 px-4 py-1 rounded-2xl text-white hover:bg-sky-500 focus:outline-none transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+            </button>
+
+            <!-- Dropdown -->
+            <div x-show="open" @click.outside="open = false"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 translate-y-2"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 translate-y-2"
+                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 py-2 border border-gray-200"
+                style="display: none;">
+                @auth
+                    <a href="{{ route('dashboard') }}"
+                        class="block px-4 py-2 text-sm text-slate-800 hover:bg-zinc-100">Dashboard</a>
+                    <a href="{{ route('profile.edit') }}"
+                        class="block px-4 py-2 text-sm text-slate-800 hover:bg-zinc-100">Profile</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="block w-full text-left px-4 py-2 text-sm text-slate-800 hover:bg-zinc-100">Logout</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="block px-4 py-2 text-sm text-slate-800 hover:bg-zinc-100">Login</a>
+                    <a href="{{ route('register') }}"
+                        class="block px-4 py-2 text-sm text-slate-800 hover:bg-zinc-100">Register</a>
+                @endauth
+            </div>
+        </div>
+    </div>
+
+    <!-- Dropdown menu for small screens -->
+    <div x-show="open"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-2"
+        class="text-sm text-white w-full bg-emerald-500 absolute top-full left-0 right-0 z-10">
+        <div class="py-4 w-full max-w-[1200px] mx-auto">
+            <ul class="flex flex-wrap gap-3 justify-between px-2">
+                <li><a class="hover:text-amber-400" href="{{ url('/') }}">Home</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/about') }}">About</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/contact') }}">Contact</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/services') }}">Services</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/blog') }}">Blog</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/faq') }}">FAQ</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/terms') }}">Terms</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/privacy') }}">Privacy Policy</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/help') }}">Help</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/support') }}">Support</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/feedback') }}">Feedback</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -63,13 +63,21 @@
                     </a>
                 </div>
 
-                <form class=" flex items-center justify-end mt-6 gap-2" method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <p class=" text-slate-500">Just one click to logout</p>
-                    <button type="submit" class="text-red-500  px-2 py-1 rounded-lg bg-red-200  hover:underline">
-                        Logout
-                    </button>
-                </form>
+                <div class=" flex items-center justify-between mt-6 gap-2">
+
+                    <a href="/"
+                        class="inline-flex items-center px-4 py-2  border border-blue-500 rounded-md font-semibold text-blue-500 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Home
+                    </a>
+
+                    <form class=" flex items-center  gap-2" method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <p class=" text-slate-500">Just one click to logout</p>
+                        <button type="submit" class="text-red-500  px-2 py-1 rounded-lg bg-red-200  hover:underline">
+                            Logout
+                        </button>
+                    </form>
+                </div>
 
             </div>
         </div>
