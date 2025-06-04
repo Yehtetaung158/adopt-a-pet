@@ -8,6 +8,8 @@ use App\Models\Category;
 // use Illuminate\Http\Request;
 use App\Http\Requests\StorePetRequest;
 use App\Http\Requests\UpdatePetRequest;
+use Illuminate\Support\Facades\Auth;
+
 // use Google\Client as GoogleClient;
 // use Google\Service\Drive as GoogleDriveService;
 // use Google\Service\Drive\DriveFile;
@@ -145,5 +147,37 @@ class PetController extends Controller
     {
         $breeds = Breed::where('category_id', $id)->get(['id', 'name']);
         return response()->json($breeds);
+    }
+
+    public function showPublicPets()
+    {
+        $user = Auth::user(); // authenticated user
+        $pets = Pet::where('status', 'available')->with(['category', 'breed'])->get()->take(4);
+
+        foreach ($pets as $pet) {
+            $pet->images = json_decode($pet->images, true);
+
+            // Add is_fav flag
+            $pet->is_fav = $user ? $pet->isFavBy($user) : false;
+        }
+
+        // return $pets;
+
+        return view('home', compact('pets'));
+    }
+
+    public function showPublicPetsPage()
+    {
+        $user = Auth::user(); // authenticated user
+        $pets = Pet::where('status', 'available')->with(['category', 'breed'])->paginate(10);
+
+        foreach ($pets as $pet) {
+            $pet->images = json_decode($pet->images, true);
+
+            // Add is_fav flag
+            $pet->is_fav = $user ? $pet->isFavBy($user) : false;
+        }
+
+        return view('public.pet.index', compact('pets'));
     }
 }

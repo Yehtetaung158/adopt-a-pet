@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BreedController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FavoritController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\ProfileController;
@@ -44,6 +45,18 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 Route::middleware(['auth', 'is_admin'])->prefix('dashboard/admin')->group(function () {
     Route::resource('users', UserController::class);
 });
+
+Route::get('/', [PetController::class, 'showPublicPets'])->name('home');
+Route::get('/pets', [PetController::class, 'showPublicPetsPage'])->name('pets');
+
+Route::post('/pets/{pet}/favorite', [FavoritController::class, 'toggleFavorite'])
+    ->middleware('auth')
+    ->name('pets.favorite');
+Route::get('/favorites', [FavoritController::class, 'showFavorites'])
+    ->middleware('auth')
+    ->name('favorites');
+
+
 
 
 require __DIR__ . '/auth.php';

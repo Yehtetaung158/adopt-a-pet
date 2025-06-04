@@ -33,4 +33,15 @@ class Pet extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'pet_id', 'user_id')
+            ->withTimestamps();
+    }
+
+    public function isFavBy(User $user)
+    {
+        return $this->favoritedBy()->where('user_id', $user->id)->exists();
+    }
 }
