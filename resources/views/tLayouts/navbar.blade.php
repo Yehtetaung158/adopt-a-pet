@@ -70,7 +70,7 @@
         <div class="py-4 w-full max-w-[1200px] mx-auto">
             <ul class="flex flex-wrap gap-3 justify-between px-2">
                 <li><a class="hover:text-amber-400" href="{{ url('/') }}">Home</a></li>
-                <li><a class="hover:text-amber-400" href="{{ url('/about') }}">About</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/pets') }}">Pets</a></li>
                 <li><a class="hover:text-amber-400" href="{{ url('/contact') }}">Contact</a></li>
                 <li><a class="hover:text-amber-400" href="{{ url('/services') }}">Services</a></li>
                 <li><a class="hover:text-amber-400" href="{{ url('/blog') }}">Blog</a></li>
