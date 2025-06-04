@@ -22,6 +22,7 @@
                 <tr>
                     <th class="border border-gray-300 px-4 py-2">#</th>
                     <th class="border border-gray-300 px-4 py-2">Name</th>
+                    <th class="border border-gray-300 px-4 py-2">Species</th>
                     <th class="border border-gray-300 px-4 py-2">Breed</th>
                     <th class="border border-gray-300 px-4 py-2">Birth Date</th>
                     <th class="border border-gray-300 px-4 py-2">Description</th>
@@ -34,6 +35,7 @@
                     <tr class="hover:bg-gray-100">
                         <td class="border px-4 py-2">{{ $index + 1 }}</td>
                         <td class="border px-4 py-2">{{ $pet->name }}</td>
+                        <td class="border px-4 py-2">{{ $pet->category }}</td>
                         <td class="border px-4 py-2">{{ $pet->breed ?? 'N/A' }}</td>
                         <td class="border px-4 py-2">{{ $pet->birth_date ?? 'N/A' }}</td>
                         <td class="border px-4 py-2">{{ $pet->description ?? 'N/A' }}</td>

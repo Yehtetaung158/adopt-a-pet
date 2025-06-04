@@ -1,4 +1,6 @@
-@props(['image', 'name', 'petId' => null, 'is_fav' => false])
+@props(['image', 'name', 'petId' => null, 'is_fav' => false ,'pet' => null])
+
+{{-- Ensure the image is a valid path --}}
 
 {{-- Ensure the image path is valid --}}
 
@@ -40,6 +42,7 @@
     <!-- Name Section -->
     <div class="px-4 py-3 text-center">
         <h3 class="text-purple-600 text-lg font-semibold">{{ $name }}</h3>
+        <h3 class="text-purple-600 text-lg font-semibold">{{ $pet['breed'] }}</h3>
 
     </div>
 </div>

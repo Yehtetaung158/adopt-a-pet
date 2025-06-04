@@ -45,7 +45,7 @@
         <h2 class="text-center mb-8 text-4xl md:text-5xl font-medium text-purple-600">Available Pets for Adoption</h2>
         <div class="flex flex-wrap justify-center gap-6">
             @foreach ($pets as $pet)
-                <x-pet-card :image="'storage/PetImage/' . $pet['images'][0]" :name="$pet['name']" petId="{{ $pet['id'] }}" :is_fav="$pet['is_fav']" />
+                <x-pet-card :pet="$pet" :image="'storage/PetImage/' . $pet['images'][0]" :name="$pet['name']" petId="{{ $pet['id'] }}" :is_fav="$pet['is_fav']" />
             @endforeach
             <a href="{{ route('pets') }}"
                 class="max-w-xs bg-purple-600 hover:bg-purple-700 rounded-2xl overflow-hidden shadow-md">

@@ -23,6 +23,7 @@ class PetController extends Controller
         foreach ($pets as $pet) {
             $pet->images = json_decode($pet->images, true);
         }
+        // return $pets;
         return view('pet.index', compact('pets'));
     }
 
@@ -31,6 +32,7 @@ class PetController extends Controller
         $pet = new Pet();
         $categories = Category::all();
         $breeds = Breed::all();
+
         return view('pet.create', compact('pet', 'categories', 'breeds'));
     }
     public function store(StorePetRequest $request)
@@ -40,6 +42,7 @@ class PetController extends Controller
         //     $newImageName = "pet_image" . uniqid() . "." . $file->extension();
         //     $file->storeAs("public/PetImage", $newImageName);
         // }
+        // return $request;
         $newImagesName = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
@@ -58,6 +61,7 @@ class PetController extends Controller
         $pet->status = $request->status;
 
         $pet->save();
+
         return redirect()->route('pets.index');
     }
 
@@ -177,6 +181,8 @@ class PetController extends Controller
             // Add is_fav flag
             $pet->is_fav = $user ? $pet->isFavBy($user) : false;
         }
+
+        // return $pets;
 
         return view('public.pet.index', compact('pets'));
     }
