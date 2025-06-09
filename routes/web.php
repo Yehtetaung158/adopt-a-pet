@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BreedController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoritController;
@@ -28,6 +29,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::resource('breeds', BreedController::class);
     Route::resource('pets', PetController::class);
     Route::resource('orders', OrderController::class);
+    Route::resource('blogs', BlogController::class);
 
     Route::get('/breeds-by-category/{id}', [PetController::class, 'getBreedsByCategory']);
     Route::get('/breeds-by-name', function (Illuminate\Http\Request $request) {

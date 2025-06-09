@@ -14,7 +14,8 @@
 
         <div class="mb-4 flex space-x-4">
             <a href="{{ route('dashboard') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Home</a>
-            <a href="{{ route('pets.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create Pet</a>
+            <a href="{{ route('pets.create') }}"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create Pet</a>
         </div>
 
         <table class="w-full table-auto border border-gray-300">
@@ -41,14 +42,17 @@
                         <td class="border px-4 py-2">{{ $pet->description ?? 'N/A' }}</td>
                         <td class="border px-4 py-2">
                             @if (count($pet->images))
-                                <img src="{{ asset('storage/PetImage/' . $pet->images[0]) }}" alt="Pet Image" width="100" height="100" class="rounded">
+                                <img src="{{ asset('storage/PetImage/' . $pet->images[0]) }}" alt="Pet Image"
+                                    width="100" height="100" class="rounded">
                             @else
                                 <span class="text-gray-400">No image</span>
                             @endif
                         </td>
                         <td class="border px-4 py-2 space-x-2">
-                            <a href="{{ route('pets.edit', $pet->id) }}" class="text-indigo-600 hover:underline">Edit</a>
-                            <form action="{{ route('pets.destroy', $pet->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure?')">
+                            <a href="{{ route('pets.edit', $pet->id) }}"
+                                class="text-indigo-600 hover:underline">Edit</a>
+                            <form action="{{ route('pets.destroy', $pet->id) }}" method="POST" class="inline-block"
+                                onsubmit="return confirm('Are you sure?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:underline">Delete</button>
@@ -58,6 +62,10 @@
                 @endforeach
             </tbody>
         </table>
+
+        <div class="mt-10 flex justify-center">
+            {{ $pets->links('vendor.pagination.custom') }}
+        </div>
     </div>
 </body>
 
