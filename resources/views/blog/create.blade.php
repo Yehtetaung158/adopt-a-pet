@@ -50,9 +50,11 @@
                 <select name="type" id="type" required
                     class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
                     <option value="">-- Select type --</option>
-                    <option value="announcement" {{ old('type') == 'announcement' ? 'selected' : '' }}>Announcement</option>
-                    <option value="article" {{ old('type') == 'article' ? 'selected' : '' }}>Article</option>
-                    <option value="news" {{ old('type') == 'news' ? 'selected' : '' }}>News</option>
+                    <option value="other" >Other</option>
+                    @foreach ($types as $type)
+                        <option value="{{ $type }}" {{ old('type') == $type ? 'selected' : '' }}>{{ ucfirst($type) }}</option>
+
+                    @endforeach
                 </select>
             </div>
 

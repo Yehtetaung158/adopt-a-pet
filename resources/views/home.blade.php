@@ -2,13 +2,12 @@
 
 @section('title', 'Home')
 
-@section('content')
-
+@section('header')
     <x-home-hero-session />
+@endsection
 
-    <x-home-pet-session :pets="$pets"/>
 
+@section('content')
+    <x-home-pet-session :pets="$pets" />
     <x-home-article-session />
-
-
 @endsection

@@ -6,6 +6,7 @@ use App\Models\blog;
 use App\Http\Requests\StoreblogRequest;
 use App\Http\Requests\UpdateblogRequest;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
@@ -15,10 +16,7 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = blog::latest()->paginate(10);
-        // You can pass any additional data needed for the view
-        // return $blogs;
         return view('blog.index', compact('blogs'));
-        // return 'blog';
     }
 
     /**
@@ -27,8 +25,8 @@ class BlogController extends Controller
     public function create()
     {
 
-        $type = Category::all()->pluck('name', 'id');
-        return view('blog.create', compact('type'));
+        $types = Category::all()->pluck('name', 'id');
+        return view('blog.create', compact('types'));
     }
 
     /**
@@ -36,16 +34,15 @@ class BlogController extends Controller
      */
     public function store(StoreblogRequest $request)
     {
-        $newImageName = '';
+        $blog = new blog();
         if ($request->hasFile('image')) {
             $file = $request->image;
             $newImageName = "blog_image" . uniqid() . "." . $file->extension();
             $file->storeAs("public/BlogImage", $newImageName);
             //  $request->merge(['image' => "$newImageName"]);
-            $newImageName = $newImageName;
+            $blog->image = $newImageName;
         }
         // return $newImageName;
-        $blog = new blog();
         $blog->title = $request->title;
         $blog->content = $request->content;
         $blog->type = $request->type;
@@ -94,7 +91,41 @@ class BlogController extends Controller
      */
     public function destroy(blog $blog)
     {
+
+        $image= json_decode($blog->image, true);
+        if($image){
+            $imagePath = storage_path("app/public/BlogImage/" . $image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
         $blog->delete();
         return redirect()->back()->with('success', 'Blog deleted successfully');
     }
+
+    public function showPublicBlogs(Request $request)
+    {
+        $query = blog::query();
+
+        if($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        // $blogs = blog::latest()->paginate(10);
+        $blogs = $query->latest()->paginate(10);
+        return view('public.blog.index', compact('blogs'));
+    }
+
+    public function showPublicBlogsDetail(blog $blog)
+    {
+        // return $blog;
+        return view('public.blog.blogDetail', compact('blog'));
+    }
+    public function showPublicHomeBlogs()
+    {
+        $blogs = blog::first()->take(3)->get();
+        return response()->json($blogs);
+    }
+
+
 }

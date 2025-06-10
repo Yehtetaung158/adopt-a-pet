@@ -16,9 +16,13 @@
     @include('tLayouts.navbar')
 
     {{-- Main content --}}
-    <main class="flex-grow mx-auto py-6">
-        {{-- Flash messages --}}
-        @yield('content')
+    <main>
+        <div>
+            @yield('header')
+        </div>
+        <div class="flex-grow mx-auto pb-6 gap-8 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            @yield('content')
+        </div>
     </main>
 
     {{-- Footer --}}

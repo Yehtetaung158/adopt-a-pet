@@ -1,7 +1,7 @@
 
 
-<section class="py-10 bg-gray-100 max-w-[1200px] mx-auto">
-        <h2 class="text-center mb-8 text-4xl md:text-5xl font-medium text-purple-600">Available Pets for Adoption</h2>
+<section class="py-10 bg-gray-100 max-w-[1200px] mx-auto my-12">
+        <h2 class="text-center mb-12 text-4xl md:text-5xl font-medium text-purple-600 ">Available Pets for Adoption</h2>
         <div class="flex flex-wrap justify-center gap-6">
             @foreach ($pets as $pet)
                 <x-pet-card :pet="$pet" :image="'storage/PetImage/' . $pet['images'][0]" :name="$pet['name']" petId="{{ $pet['id'] }}"

@@ -32,6 +32,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::resource('blogs', BlogController::class);
 
     Route::get('/breeds-by-category/{id}', [PetController::class, 'getBreedsByCategory']);
+
     Route::get('/breeds-by-name', function (Illuminate\Http\Request $request) {
         $categoryName = $request->query('category_name');
         $category = App\Models\Category::where('name', $categoryName)->first();
@@ -51,14 +52,16 @@ Route::middleware(['auth', 'is_admin'])->prefix('dashboard/admin')->group(functi
 Route::get('/', [PetController::class, 'showPublicPets'])->name('home');
 Route::get('/pets', [PetController::class, 'showPublicPetsPage'])->name('pets');
 
+Route::get('/blogs', [BlogController::class, 'showPublicBlogs'])->name('blogs');
+Route::get('/blogs/{blog}', [BlogController::class, 'showPublicBlogsDetail'])->name('blogs.detail');
+Route::get('/home-blogs',[BlogController::class, 'showPublicHomeBlogs'])->name('home.blogs');
+
 Route::post('/pets/{pet}/favorite', [FavoritController::class, 'toggleFavorite'])
     ->middleware('auth')
     ->name('pets.favorite');
+
 Route::get('/favorites', [FavoritController::class, 'showFavorites'])
     ->middleware('auth')
     ->name('favorites');
-
-
-
 
 require __DIR__ . '/auth.php';
