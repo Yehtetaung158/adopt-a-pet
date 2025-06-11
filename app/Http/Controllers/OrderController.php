@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Pet;
+use Google\Service\CloudSearch\Id;
 
 class OrderController extends Controller
 {
@@ -34,7 +36,31 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        // return $request;
+        $existedOrder = Order::where('pet_id', $request->pet_id)
+            ->where('user_id', $request->user_id)
+            ->first();
+        // return $existedOrder;
+        if (!$existedOrder) {
+            $order = new Order();
+            $order->user_id = $request->user_id;
+            $order->pet_id = $request->pet_id;
+            $order->phone = $request->phone;
+            $order->address = $request->address;
+            $order->status = 'pending';
+            $order->save();
+            return redirect()->route('pets.detail', $request->pet_id)->with('success', 'Order created successfully');
+        } else {
+            if ($existedOrder->status == 'cancelled' && $existedOrder) {
+                $existedOrder->status = 'pending';
+                $existedOrder->phone = $request->phone;
+                $existedOrder->address = $request->address;
+                $existedOrder->save();
+                return redirect()->route('pets.detail', $request->pet_id)->with('success', 'Order created successfully');
+            } elseif ($existedOrder->status == 'approved') {
+                return redirect()->route('pets.detail', $request->pet_id)->with('error', 'Order already approved');
+            }
+        }
     }
 
     /**
@@ -59,10 +85,17 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-       $order->status = $request->status;
+        // return $request;
+        $pet = Pet::find($order->pet_id);
+        $order->status = $request->status;
         $order->save();
-
-        // return redirect()->route('orders.index');
+        if ($order->status == 'approved') {
+            $pet->status = 'adopted';
+            $pet->save();
+        } elseif ($order->status == 'cancelled' || $order->status == 'pending') {
+            $pet->status = 'available';
+            $pet->save();
+        }
         return redirect()->route('orders.index')->with('success', 'Order updated successfully');
     }
 
@@ -73,5 +106,22 @@ class OrderController extends Controller
     {
         $order->delete();
         return redirect()->route('orders.index')->with('success', 'Order deleted successfully');
+    }
+
+    public function cancelOrder(Pet $pet, StoreOrderRequest $request)
+    {
+        // return $pet;
+        $order = Order::where('pet_id', $pet->id)
+            ->where('user_id', $request->user()->id)
+            ->where('status', 'pending')
+            ->first();
+        if (!$order) {
+            return redirect()->route('pets.detail', $pet->id)->with('error', 'No pending order found for this pet.');
+        }
+        $order->delete();
+        $pet->status = 'available';
+        $pet->save();
+        return redirect()->route('pets.detail', $pet->id)->with('success', 'Order cancelled successfully');
+        // return $request;
     }
 }

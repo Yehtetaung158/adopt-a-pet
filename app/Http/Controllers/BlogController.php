@@ -65,7 +65,8 @@ class BlogController extends Controller
      */
     public function edit(blog $blog)
     {
-        return view('blog.edit', compact('blog'));
+         $types = Category::all()->pluck('name', 'id');
+        return view('blog.edit', compact('blog', 'types'));
     }
 
     /**

@@ -1,23 +1,20 @@
 @extends('tLayouts.app')
 
-@section('title', 'Home')
+@section('title', 'Pets')
 
 
 @section('content')
-
-
-
-
-    <section class="py-10 bg-gray-100">
+    <div class="py-10 bg-gray-100 flex flex-col items-center">
+        {{-- Header --}}
         <h2 class="text-center mb-8 text-4xl md:text-5xl font-bold">Available Pets for Adoption</h2>
 
         <form method="GET" action="{{ route('pets') }}" class="max-w-4xl mx-auto mb-8 px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 w-full">
                 {{-- Category --}}
                 <div>
                     <label for="category" class="block font-medium text-gray-700">Category</label>
                     <select name="category" id="category"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300">
+                        class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-300">
                         <option value="">All Categories</option>
                         @foreach ($categories as $cat)
                             <option value="{{ $cat->name }}" {{ request('category') === $cat->name ? 'selected' : '' }}>
@@ -31,7 +28,7 @@
                 <div>
                     <label for="breed" class="block font-medium text-gray-700">Breed</label>
                     <select name="breed" id="breed"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300">
+                        class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-300">
                         <option value="">All Breeds</option>
                         @if (request('category'))
                             @php
@@ -54,11 +51,10 @@
                     <label for="search" class="block font-medium text-gray-700">Search</label>
                     <input type="text" name="search" id="search" value="{{ request('search') }}"
                         placeholder="Pet name..."
-                        class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" />
+                        class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-300" />
                 </div>
             </div>
 
-            {{-- Filter Button --}}
             <div class="flex justify-between items-center mt-4">
                 <div class="flex items-center gap-4">
                     <span class="bg-purple-100  text-purple-700 px-3 py-1 rounded-full text-sm flex items-center">
@@ -107,13 +103,11 @@
                     :is_fav="$pet['is_fav']" />
             @endforeach
         </div>
-    </section>
+    </div>
     <div class="mt-10 flex justify-center">
         {{ $pets->links('vendor.pagination.custom') }}
     </div>
-
-
-@endsection;
+@endsection
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

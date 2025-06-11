@@ -13,15 +13,15 @@
                 <!-- Filter buttons with active state tracking -->
                 <div class="flex flex-wrap gap-2">
                     <a href="{{ route('blogs') }}"
-                        class="px-4 py-2 rounded transition-colors {{ !request('type') ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white hover:bg-blue-600' }}">
+                        class="px-4 py-2 rounded transition-colors {{ !request('type') ? 'bg-purple-600 text-white' : 'bg-purple-500 text-white hover:bg-purple-600' }}">
                         All Posts
                     </a>
                     <a href="{{ route('blogs', ['type' => 'dog']) }}"
-                        class="px-4 py-2 rounded transition-colors {{ request('type') === 'dog' ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white hover:bg-blue-600' }}">
+                        class="px-4 py-2 rounded transition-colors {{ request('type') === 'dog' ? 'bg-purple-600 text-white' : 'bg-purple-500 text-white hover:bg-purple-600' }}">
                         Dogs
                     </a>
                     <a href="{{ route('blogs', ['type' => 'cat']) }}"
-                        class="px-4 py-2 rounded transition-colors {{ request('type') === 'cat' ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white hover:bg-blue-600' }}">
+                        class="px-4 py-2 rounded transition-colors {{ request('type') === 'cat' ? 'bg-purple-600 text-white' : 'bg-purple-500 text-white hover:bg-purple-600' }}">
                         Cats
                     </a>
                 </div>
@@ -55,7 +55,7 @@
                                     <!-- Category badge -->
                                     @if ($blog->type)
                                         <span
-                                            class="ml-auto bg-{{ $blog->type === 'dog' ? 'blue' : 'orange' }}-100 text-{{ $blog->type === 'dog' ? 'blue' : 'orange' }}-800 text-xs px-2 py-1 rounded-full">
+                                            class="ml-auto bg-{{ $blog->type === 'dog' ? 'purple' : 'orange' }}-100 text-{{ $blog->type === 'dog' ? 'purple' : 'orange' }}-800 text-xs px-2 py-1 rounded-full">
                                             {{ ucfirst($blog->type) }}
                                         </span>
                                     @endif
@@ -74,4 +74,4 @@
             @endif
         </div>
     </div>
-@endsection;
+@endsection

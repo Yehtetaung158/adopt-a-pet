@@ -171,46 +171,66 @@ class PetController extends Controller
         return view('home', compact('pets'));
     }
 
-   public function showPublicPetsPage(Request $request)
-{
-    $query = Pet::query();
+    public function showPublicPetsPage(Request $request)
+    {
+        $query = Pet::query();
 
-    // ✅ Status always available
-    $query->where('status', 'available');
+        // ✅ Status always available
+        $query->where('status', 'available');
 
-    // ✅ Filtering
-    if ($request->filled('category')) {
-        $query->where('category', $request->category);
+        // ✅ Filtering
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->filled('breed')) {
+            $query->where('breed', $request->breed);
+        }
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // ✅ Eager loading
+        $query->with(['category', 'breed']);
+
+        // ✅ Pagination with query strings
+        $pets = $query->paginate(10)->withQueryString();
+
+        // ✅ Authenticated user
+        $user = Auth::user();
+        $categories = Category::all();
+        $breeds = Breed::all();
+
+        // ✅ Add images + fav flag
+        foreach ($pets as $pet) {
+            $pet->images = json_decode($pet->images, true);
+            $pet->is_fav = $user ? $pet->isFavBy($user) : false;
+        }
+
+        // return $pets;
+
+        return view('public.pet.index', compact('pets', 'categories', 'breeds'));
     }
 
-    if ($request->filled('breed')) {
-        $query->where('breed', $request->breed);
-    }
-
-    if ($request->filled('search')) {
-        $query->where('name', 'like', '%' . $request->search . '%');
-    }
-
-    // ✅ Eager loading
-    $query->with(['category', 'breed']);
-
-    // ✅ Pagination with query strings
-    $pets = $query->paginate(10)->withQueryString();
-
-    // ✅ Authenticated user
-    $user = Auth::user();
-    $categories = Category::all();
-    $breeds = Breed::all();
-
-    // ✅ Add images + fav flag
-    foreach ($pets as $pet) {
+    public function showPublicPetsDetail(Pet $pet)
+    {
+        // return $pet;
+        $user = Auth::user();
         $pet->images = json_decode($pet->images, true);
         $pet->is_fav = $user ? $pet->isFavBy($user) : false;
+        $orderData =$user ? $pet->orders()->where('user_id', $user->id)->first() : null;
+        if ($orderData) {
+            $pet->order_status = $orderData->status;
+            $pet->ordered_user_id = $orderData->user_id; // Add order ID to the pet object
+        } else {
+            $pet->order_status = null;
+            $pet->ordered_user_id = null; // No order found, set to null
+        }
+        // return $pet;
+
+        $user_id = $user ? $user->id : null;
+        // return $pet->order_status; // For debugging purposes, you can remove this line later
+        return view('public.pet.petDetail', compact('pet', 'user_id'));
     }
-
-    // return $pets;
-
-    return view('public.pet.index', compact('pets', 'categories', 'breeds'));
-}
-
 }

@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="utf-8" />
-    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@yield('title', 'My App')</title>
 
@@ -12,10 +11,8 @@
 
 <body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
 
-    {{-- Navbar --}}
-    @include('tLayouts.navbar')
 
-    {{-- Main content --}}
+    @include('tLayouts.navbar')
     <main>
         <div>
             @yield('header')
@@ -24,9 +21,7 @@
             @yield('content')
         </div>
     </main>
-
-    {{-- Footer --}}
-    <footer class="bg-purple-600 text-white py-4">
+    <footer class="bg-purple-600 text-white py-4 mt-auto">
 
         <div class="container mx-auto flex flex-col gap-4 md:flex-row justify-start items-center space-y-4 md:space-y-0">
             <ul class="flex flex-col items-start gap-2">
@@ -68,8 +63,7 @@
         </div>
     </footer>
 
+
 </body>
 
 </html>
-
-{{-- @include('components.footer') --}}

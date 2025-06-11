@@ -51,10 +51,19 @@ Route::middleware(['auth', 'is_admin'])->prefix('dashboard/admin')->group(functi
 
 Route::get('/', [PetController::class, 'showPublicPets'])->name('home');
 Route::get('/pets', [PetController::class, 'showPublicPetsPage'])->name('pets');
+Route::get('/pets/{pet}', [PetController::class, 'showPublicPetsDetail'])->name('pets.detail');
 
 Route::get('/blogs', [BlogController::class, 'showPublicBlogs'])->name('blogs');
 Route::get('/blogs/{blog}', [BlogController::class, 'showPublicBlogsDetail'])->name('blogs.detail');
 Route::get('/home-blogs',[BlogController::class, 'showPublicHomeBlogs'])->name('home.blogs');
+
+Route::post('/pets/{pet}/order', [OrderController::class, 'store'])
+    ->middleware('auth')
+    ->name('pets.order');
+
+Route::delete('/pets/{pet}/cancel', [OrderController::class, 'cancelOrder'])
+    ->middleware('auth')
+    ->name('pets.order.cancel');
 
 Route::post('/pets/{pet}/favorite', [FavoritController::class, 'toggleFavorite'])
     ->middleware('auth')

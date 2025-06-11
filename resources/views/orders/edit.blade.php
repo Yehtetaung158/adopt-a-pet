@@ -46,7 +46,7 @@
                     class="w-full border border-gray-300 rounded px-4 py-2">
                     <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="approved" {{ $order->status === 'approved' ? 'selected' : '' }}>Approved</option>
-                    <option value="rejected" {{ $order->status === 'rejected' ? 'selected' : '' }}>Rejected</option>
+                    <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                 </select>
             </div>
 
