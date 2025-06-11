@@ -65,6 +65,16 @@ Route::delete('/pets/{pet}/cancel', [OrderController::class, 'cancelOrder'])
     ->middleware('auth')
     ->name('pets.order.cancel');
 
+Route::delete('/orders/{pet}/cancel', [OrderController::class, 'cancelOrderForOrderPage'])
+    ->middleware('auth')
+    ->name('order.cancel');
+
+
+
+Route::get('/orders', [OrderController::class, 'showPublicOrders'])
+    ->middleware('auth')
+    ->name('pets.orders');
+
 Route::post('/pets/{pet}/favorite', [FavoritController::class, 'toggleFavorite'])
     ->middleware('auth')
     ->name('pets.favorite');

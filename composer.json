@@ -12,6 +12,7 @@
         "yaza/laravel-google-drive-storage": "^4.1"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.5",
         "fakerphp/faker": "^1.23",
         "laravel/breeze": "^2.3",
         "laravel/pint": "^1.13",

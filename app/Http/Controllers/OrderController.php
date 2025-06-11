@@ -6,7 +6,8 @@ use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Pet;
-use Google\Service\CloudSearch\Id;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -76,16 +77,12 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        // return $order;
         return view('orders.edit', compact('order'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        // return $request;
         $pet = Pet::find($order->pet_id);
         $order->status = $request->status;
         $order->save();
@@ -98,10 +95,6 @@ class OrderController extends Controller
         }
         return redirect()->route('orders.index')->with('success', 'Order updated successfully');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Order $order)
     {
         $order->delete();
@@ -110,7 +103,6 @@ class OrderController extends Controller
 
     public function cancelOrder(Pet $pet, StoreOrderRequest $request)
     {
-        // return $pet;
         $order = Order::where('pet_id', $pet->id)
             ->where('user_id', $request->user()->id)
             ->where('status', 'pending')
@@ -122,6 +114,35 @@ class OrderController extends Controller
         $pet->status = 'available';
         $pet->save();
         return redirect()->route('pets.detail', $pet->id)->with('success', 'Order cancelled successfully');
-        // return $request;
+    }
+
+    public function cancelOrderForOrderPage(Pet $pet, StoreOrderRequest $request)
+    {
+        $order = Order::where('pet_id', $pet->id)
+            ->where('user_id', $request->user()->id)
+            ->where('status', 'pending')
+            ->first();
+        $order->delete();
+        $pet->status = 'available';
+        $pet->save();
+        return redirect()->route('pets.orders')->with('success', 'Order cancelled successfully');
+    }
+    public function showPublicOrders()
+    {
+        $AuthUser = Auth::user();
+
+        if (!$AuthUser) {
+            abort(403, 'Unauthorized');
+        }
+
+        $user = User::find($AuthUser->id);
+
+        if (!$user) {
+            abort(404, 'User not found');
+        }
+
+        $orders = $user->orders()->where('status', '!=', 'cancelled')->with('pet')->get();
+        // return $orders;
+        return view('public.order.index', compact('orders'));
     }
 }

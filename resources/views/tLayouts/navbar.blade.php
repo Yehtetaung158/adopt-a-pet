@@ -72,6 +72,7 @@
                 <li><a class="hover:text-amber-400" href="{{ url('/') }}">Home</a></li>
                 <li><a class="hover:text-amber-400" href="{{ url('/pets') }}">Pets</a></li>
                 <li><a class="hover:text-amber-400" href="{{ url('/blogs') }}">Blog</a></li>
+                <li><a class="hover:text-amber-400" href="{{ url('/orders') }}">Order</a></li>
             </ul>
         </div>
     </div>
