@@ -1,28 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('tLayouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+@section('title', 'Home')
 
-<body>
-    <h1>I am favorites</h1>
-    @foreach ( $favorites as $favorite )
-        <div>
-            <h2>{{ $favorite->name }}</h2>
-            <p>Breed: {{ $favorite->breed->name ?? 'N/A' }}</p>
-            <p>Birth Date: {{ $favorite->birth_date ?? 'N/A' }}</p>
-            <p>Description: {{ $favorite->description ?? 'N/A' }}</p>
-            {{-- @if (count($favorite->pet->images))
-                <img src="{{ asset('storage/PetImage/' . $favorite->pet->images[0]) }}" alt="Pet Image" width="100" height="100" class="rounded">
-            @else --}}
-                {{-- <span class="text-gray-400">No image</span>
-            @endif --}}
+@section('content')
+    <div class="py-10 bg-gray-100 flex flex-col items-center">
+        {{-- Header --}}
+        <h2 class="text-center text-4xl md:text-5xl font-bold  flex items-end mb-12"><span>Your Fav </span><svg
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-red-600">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3c3.08 0 5.5 2.42 5.5 5.5
+                                    0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg><span>rite Pets</span></h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
+            @foreach ($favorites as $pet)
+                <x-pet-card :pet="$pet" :image="'storage/PetImage/' . $pet['images'][0]" :name="$pet['name']" petId="{{ $pet['id'] }}"
+                    :is_fav="$pet['is_fav']" />
+            @endforeach
         </div>
-    @endforeach
-</body>
-
-</html>
+        <div class="mt-10 flex justify-center">
+            {{ $favorites->links('vendor.pagination.custom') }}
+        </div>
+    </div>
+@endsection
