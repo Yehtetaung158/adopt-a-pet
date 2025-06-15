@@ -108,10 +108,25 @@ return [
         //     'processors' => [PsrLogMessageProcessor::class],
         // ],
 
+        // 'papertrail' => [
+        //     'driver' => 'monolog',
+        //     'level' => env('LOG_LEVEL', 'debug'),
+        //     'handler' => env('LOG_PAPERTRAIL_HANDLER', \Monolog\Handler\SyslogUdpHandler::class),
+        //     'handler_with' => [
+        //         'host' => env('PAPERTRAIL_URL', 'logs.dummy.com'),
+        //         'port' => env('PAPERTRAIL_PORT', 12345),
+        //     ],
+        //     'connectionString' => 'tls://' .
+        //         env('PAPERTRAIL_URL', 'logs.dummy.com') . ':' .
+        //         env('PAPERTRAIL_PORT', 12345),
+
+        //     'processors' => [\Monolog\Processor\PsrLogMessageProcessor::class],
+        // ],
+
         'papertrail' => [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => env('LOG_PAPERTRAIL_HANDLER', \Monolog\Handler\SyslogUdpHandler::class),
+            'handler' => \Monolog\Handler\SyslogUdpHandler::class,
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL', 'logs.dummy.com'),
                 'port' => env('PAPERTRAIL_PORT', 12345),
