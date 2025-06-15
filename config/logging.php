@@ -52,11 +52,18 @@ return [
 
     'channels' => [
 
+        // 'stack' => [
+        //     'driver' => 'stack',
+        //     'channels' => explode(',', env('LOG_STACK', 'single')),
+        //     'ignore_exceptions' => false,
+        // ],
+
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', env('LOG_STACK', 'single')),
+            'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
+
 
         'single' => [
             'driver' => 'single',
@@ -123,16 +130,16 @@ return [
         //     'processors' => [\Monolog\Processor\PsrLogMessageProcessor::class],
         // ],
 
-        'papertrail' => [
-            'driver' => 'monolog',
-            'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => \Monolog\Handler\SyslogUdpHandler::class,
-            'handler_with' => [
-                'host' => env('PAPERTRAIL_URL', 'logs.dummy.com'),
-                'port' => env('PAPERTRAIL_PORT', 12345),
-            ],
-            'processors' => [\Monolog\Processor\PsrLogMessageProcessor::class],
-        ],
+        // 'papertrail' => [
+        //     'driver' => 'monolog',
+        //     'level' => env('LOG_LEVEL', 'debug'),
+        //     'handler' => \Monolog\Handler\SyslogUdpHandler::class,
+        //     'handler_with' => [
+        //         'host' => env('PAPERTRAIL_URL', 'logs.dummy.com'),
+        //         'port' => env('PAPERTRAIL_PORT', 12345),
+        //     ],
+        //     'processors' => [\Monolog\Processor\PsrLogMessageProcessor::class],
+        // ],
 
 
         'stderr' => [
